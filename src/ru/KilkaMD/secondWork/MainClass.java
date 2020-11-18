@@ -131,10 +131,12 @@ public class MainClass {
                     gVector = calculator.findG(matrixA, rows);
                     specRadius = matrixH.maxSobstv();
                     calculator.relax(matrixH, gVector, vectorX, rows, eps, specRadius);
+                    break;
                 }
                 case 7: {
                     program.clrscr();
                     calculator.watchFactK();
+                    break;
                 }
             }
         } while (menuItem != 0);
