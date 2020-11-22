@@ -86,36 +86,5 @@ public class MatrixClass {
         }
     }
 
-    public void getSobV() {
-        RealMatrix testMatrix = MatrixUtils.createRealMatrix(matrix);
-        EigenDecomposition decomposition = new EigenDecomposition(testMatrix);
-        RealMatrix res = decomposition.getVT();
-        double[][] printRes= res.getData();
-        for (int i = 0; i < 3; ++i) {
-            System.out.println("Собственный вектор");
-            for (int j = 0; j < 3; ++j) {
-                System.out.println(printRes[i][j]);
-            }
-        }
-    }
-
-    public void maxSobstv() {
-        RealMatrix testMatrix = MatrixUtils.createRealMatrix(matrix);
-        EigenDecomposition decomposition = new EigenDecomposition(testMatrix);
-        double eigenValues[] = decomposition.getRealEigenvalues();
-        for (double eigenValue : eigenValues) {
-            System.out.println("\u03bb = " + eigenValue);
-        }
-    }
-
-    public void printVector(int rows) {
-        for (int i = 0; i < rows; i++) {
-            Formatter formatter = new Formatter();
-            formatter.format("%-10.6f ", matrix[i][0]);
-            System.out.print(formatter);
-            System.out.println("");
-        }
-    }
-
 }
 
