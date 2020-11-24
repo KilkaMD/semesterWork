@@ -2,9 +2,18 @@ package ru.KilkaMD.secondWork;
 
 import static java.lang.Math.*;
 
+/**
+ * MatrixCalculateClass - класс с реализацией основных функций программы для решения СЛАУ итерационными методами
+ */
 public class MatrixCalculateClass {
+    /**
+     * Переменная(массив) для хранения фактического числа итераций приведенных методов решения СЛАУ
+     */
     private int factK[] = {-1, -1, -1};
 
+    /**
+     * Метод для отображения фактического числа итераций приведенных методов решения СЛАУ
+     */
     public void watchFactK() {
         System.out.println("Note: Если значение равно \"-1\", то это означает, что вычисление этого метода ещё не происходило. Произведите его через меню и вернитесь обратно к результатам");
         System.out.println("Фактическое число итераций метода простой итерации = " + factK[0]);
@@ -12,6 +21,12 @@ public class MatrixCalculateClass {
         System.out.println("Фактическое число итераций метода верхней релаксации = " + factK[2]);
     }
 
+    /**
+     * Метод Гаусса для решения СЛАУ с выбором ведущего элемента по строкам и столбцам
+     * @param matrix расширенная матрица A задачи
+     * @param rows порядок матрицы A задачи
+     * @return вектор точного решения СЛАУ
+     */
     public static MatrixClass gaussWithMax(MatrixClass matrix, int rows) {
         MatrixClass resMatrix = new MatrixClass();
         MatrixClass helpMatrix = new MatrixClass();
@@ -58,6 +73,12 @@ public class MatrixCalculateClass {
         return vector;
     }
 
+    /**
+     * Метод для поиска матрицы H из разложения x = Hx+g
+     * @param matrix матрица A условия
+     * @param rows порядок матрицы A
+     * @return матрица H
+     */
     public static MatrixClass findH(MatrixClass matrix, int rows) {
         MatrixClass matrixX = new MatrixClass();
         matrixX.setSize(rows, rows);
@@ -73,6 +94,12 @@ public class MatrixCalculateClass {
         return matrixX;
     }
 
+    /**
+     * Метод для поиска вектора g из разложения x = Hx+g
+     * @param matrix матрица A условия
+     * @param rows порядок матрицы A
+     * @return вектор g
+     */
     public static MatrixClass findG(MatrixClass matrix, int rows) {
         MatrixClass gVector = new MatrixClass();
         gVector.setSize(rows, 1);
@@ -82,6 +109,12 @@ public class MatrixCalculateClass {
         return gVector;
     }
 
+    /**
+     * Метод для нахождения нормы матрицы, как максимальной суммы строчных элементов
+     * @param matrix матрица, норму которой необходимо найти
+     * @param rows порядок матрицы
+     * @return норма матрицы
+     */
     public static double norma(MatrixClass matrix, int rows) {
         double max = 0, sum;
         for (int i = 0; i < rows; ++i) {
@@ -94,6 +127,12 @@ public class MatrixCalculateClass {
         return max;
     }
 
+    /**
+     * Метод для нахождения нормы вектора(максимального по абсолютной величине его компонента)
+     * @param matrix вектор
+     * @param rows высота вектора
+     * @return норма вектора
+     */
     public static double normaVector(MatrixClass matrix, int rows) {
         double max = 0;
         for (int i = 0; i < rows; ++i) {
@@ -104,6 +143,13 @@ public class MatrixCalculateClass {
         return max;
     }
 
+    /**
+     * Метод для нахождения априорной оценки того k, при котором ||x − x^(k)|| < ε
+     * @param normaH норма матрицы H из разложения x = Hx+g
+     * @param normaG норма вектора g из разложения x = Hx+g
+     * @param eps ε из условия задачи
+     * @return априорная оценка
+     */
     public int precision(double normaH, double normaG, double eps) {
         int k = 0;
         double accuracy;
@@ -122,6 +168,15 @@ public class MatrixCalculateClass {
         return k;
     }
 
+    /**
+     * Метод для вычисления решения методом простой итерации с точностью ε
+     * @param matrixH матрица H из разложения x = Hx+g
+     * @param vectorG вектор g из разложения x = Hx+g
+     * @param vectorX вектор точного решения СЛАУ методом Гаусса
+     * @param rows порядок матрицы H
+     * @param eps ε из условия задачи
+     * @param apriorK априорной оценки того k, при котором ||x − x^(k)|| < ε
+     */
     public void methodIter(MatrixClass matrixH, MatrixClass vectorG, MatrixClass vectorX, int rows, double eps, int apriorK) {
         MatrixCalculateClass calculater = new MatrixCalculateClass();
         MatrixClass xIterVector = new MatrixClass();
@@ -193,6 +248,14 @@ public class MatrixCalculateClass {
         }
     }
 
+    /**
+     * Метод для вычисления решения системы x = Hx + g методом Зейделя с точностью ε
+     * @param matrixH матрица H из разложения x = Hx+g
+     * @param gVector вектор g из разложения x = Hx+g
+     * @param vectorX вектор точного решения СЛАУ методом Гаусса
+     * @param rows порядок матрицы H
+     * @param eps ε из условия задачи
+     */
     public void zaidel(MatrixClass matrixH, MatrixClass gVector, MatrixClass vectorX, int rows, double eps) {
         MatrixCalculateClass calculater = new MatrixCalculateClass();
         MatrixClass xIterVector = new MatrixClass();
@@ -242,6 +305,12 @@ public class MatrixCalculateClass {
         }
     }
 
+    /**
+     * Метод для вычисления спектрального радиуса матрицы перехода, если рассматривать метод Зейделя как метод простой итерации
+     * @param matrixH матрица H для представления её в виде H = H_l + H_r
+     * @param rows порядок матрицы H
+     * @return спектральный радиус
+     */
     public double findSpecRadius(MatrixClass matrixH, int rows) {
         double radius;
         MatrixClass matrixHL = new MatrixClass();
@@ -274,6 +343,16 @@ public class MatrixCalculateClass {
         return radius;
     }
 
+    /**
+     * Метод для вычисления решения системы Ax = b методом верхней релаксации с точностью ε
+     * @param matrixH матрица H из разложения x = Hx+g
+     * @param gVector вектор g из разложения x = Hx+g
+     * @param vectorX вектор точного решения СЛАУ методом Гаусса
+     * @param rows порядок матрицы H
+     * @param eps ε из условия задачи
+     * @param specRadius спектральный радиус, вычисленный при помощи метода maxSobstv()
+     * @see MatrixClass#maxSobstv()
+     */
     public void relax(MatrixClass matrixH, MatrixClass gVector, MatrixClass vectorX, int rows, double eps, double specRadius) {
         double qOpt = 2 / (1 + sqrt(1 - pow(specRadius, 2)));
         MatrixCalculateClass calculater = new MatrixCalculateClass();
