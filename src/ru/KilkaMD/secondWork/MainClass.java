@@ -112,6 +112,7 @@ public class MainClass {
             switch (menuItem) {
                 case 1: {
                     program.clrscr();
+                    System.out.println("1. Преобразование исходной системы к системе вида x = Hx+g, а также вычисление ||H||");
                     matrixH = calculator.findH(matrixA, rows);
                     gVector = calculator.findG(matrixA, rows);
                     double normaH = calculator.norma(matrixH, rows);
@@ -124,6 +125,7 @@ public class MainClass {
                 }
                 case 2: {
                     program.clrscr();
+                    System.out.println("2. Нахождение априорной оценки того k, при котором ||x − x^(k)|| < ε, ε = 0.001");
                     matrixH = calculator.findH(matrixA, rows);
                     gVector = calculator.findG(matrixA, rows);
                     double normaH = calculator.norma(matrixH, rows);
@@ -134,6 +136,7 @@ public class MainClass {
                 }
                 case 3: {
                     program.clrscr();
+                    System.out.println("3. Вычисление решения методом простой итерации с точностью ε = 0.001");
                     matrixH = calculator.findH(matrixA, rows);
                     gVector = calculator.findG(matrixA, rows);
                     double normaH = calculator.norma(matrixH, rows);
@@ -144,6 +147,7 @@ public class MainClass {
                 }
                 case 4: {
                     program.clrscr();
+                    System.out.println("4. Вычисление решения системы x = Hx + g методом Зейделя с точностью ε = 0.001");
                     matrixH = calculator.findH(matrixA, rows);
                     gVector = calculator.findG(matrixA, rows);
                     calculator.zaidel(matrixH, gVector, vectorX, rows, eps);
@@ -151,6 +155,7 @@ public class MainClass {
                 }
                 case 5: {
                     program.clrscr();
+                    System.out.println("5. Вычисление спектрального радиуса матрицы перехода, если рассматривать метод Зейделя как метод простой итерации");
                     matrixH = calculator.findH(matrixA, rows);
                     specRadius = calculator.findSpecRadius(matrixH, rows);
                     System.out.println("Спектрального радиуса матрицы перехода, если рассматривать метод Зейделя как метод простой итерации = "+ specRadius);
@@ -160,6 +165,7 @@ public class MainClass {
                 }
                 case 6: {
                     program.clrscr();
+                    System.out.println("6. Вычисление решения системы Ax = b методом верхней релаксации с точностью ε = 0.001");
                     matrixH = calculator.findH(matrixA, rows);
                     gVector = calculator.findG(matrixA, rows);
                     specRadius = matrixH.maxSobstv();
@@ -168,6 +174,7 @@ public class MainClass {
                 }
                 case 7: {
                     program.clrscr();
+                    System.out.println("7. Сравнение фактического числа итераций различных методов");
                     calculator.watchFactK();
                     break;
                 }
