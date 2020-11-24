@@ -2,14 +2,23 @@ package ru.KilkaMD.firstWork;
 
 import static java.lang.Math.abs;
 
+/**
+ * MatrixCalculateClass - класс с реализацией основных функций программы для решения СЛАУ схемой Гаусса, нахождения обратной матрицы и вычисления числа обусловленности
+ */
 public class MatrixCalculateClass {
 
+    /**
+     * Метод Гаусса для решения СЛАУ с выбором ведущего элемента по строкам и столбцам
+     * @param matrix расширенная матрица A задачи
+     * @param rows порядок матрицы A задачи
+     */
     public static void gaussWithMax(MatrixClass matrix, int rows) {
         MatrixClass resMatrix = new MatrixClass();
         MatrixClass helpMatrix = new MatrixClass();
         resMatrix.setSize(rows, rows + 1);
         helpMatrix.setSize(rows, rows + 1);
         double vector[] = new double[rows];
+        resMatrix.setRowsOrderLength(rows);
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < rows + 1; j++) {
                 resMatrix.setElem(i, j, matrix.getElem(i, j));
@@ -60,6 +69,12 @@ public class MatrixCalculateClass {
         }
     }
 
+    /**
+     * Метод для нахождения обратной матрицы к A с помощью LU-разложения
+     * @param matrix матрица A условия
+     * @param rows порядок матрицы A
+     * @return обратная матрица A^(-1)
+     */
     public static MatrixClass reverseMatrix(MatrixClass matrix, int rows) {
         MatrixClass reverseMatrix = new MatrixClass();
         MatrixClass lMatrix = new MatrixClass();
@@ -99,14 +114,14 @@ public class MatrixCalculateClass {
         System.out.println("Матрица L: ");
         lMatrix.printMatrixLU(rows);
 
-        for(int iter = 0; iter < rows; ++iter) {
+        for (int iter = 0; iter < rows; ++iter) {
             double lVector[] = new double[rows];
             double uVector[] = new double[rows];
-            if(iter == 0) {
+            if (iter == 0) {
                 lVector[0] = 1 / lMatrix.getElem(0, 0);
             } else lVector[0] = 0;
             for (int i = 1; i < rows; ++i) {
-                if(iter == i) {
+                if (iter == i) {
                     sum = 1;
                 } else sum = 0;
                 for (int j = 0; j < i; ++j) {
@@ -123,20 +138,27 @@ public class MatrixCalculateClass {
                 }
                 uVector[i] = sum;
             }
-            for(int i = 0; i < rows; ++i) {
+            for (int i = 0; i < rows; ++i) {
                 reverseMatrix.setElem(i, iter, uVector[i]);
             }
         }
         return reverseMatrix;
     }
+
+    /**
+     * Метод для нахождения нормы матрицы, как максимальной суммы строчных элементов
+     * @param matrix матрица, норму которой необходимо найти
+     * @param rows порядок матрицы
+     * @return норма матрицы
+     */
     public static double norma(MatrixClass matrix, int rows) {
         double max = 0, sum;
-        for(int i = 0; i < rows; ++i) {
+        for (int i = 0; i < rows; ++i) {
             sum = 0;
-            for(int j = 0; j < rows; ++j) {
+            for (int j = 0; j < rows; ++j) {
                 sum += abs(matrix.getElem(i, j));
             }
-            if(sum > max) max = sum;
+            if (sum > max) max = sum;
         }
         return max;
     }

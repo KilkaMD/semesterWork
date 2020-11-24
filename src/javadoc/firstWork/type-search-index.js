@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes","url":"allclasses-index.html"},{"p":"ru.KilkaMD.firstWork","l":"MainClass"},{"p":"ru.KilkaMD.firstWork","l":"MatrixCalculateClass"},{"p":"ru.KilkaMD.firstWork","l":"MatrixClass"}]

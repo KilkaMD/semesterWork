@@ -34,6 +34,7 @@ public class MatrixCalculateClass {
         helpMatrix.setSize(rows, rows + 1);
         MatrixClass vector = new MatrixClass();
         vector.setSize(rows, 1);
+        resMatrix.setRowsOrderLength(rows);
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < rows + 1; j++) {
                 resMatrix.setElem(i, j, matrix.getElem(i, j));
