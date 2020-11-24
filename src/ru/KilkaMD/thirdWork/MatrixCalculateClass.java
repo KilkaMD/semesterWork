@@ -2,17 +2,30 @@ package ru.KilkaMD.thirdWork;
 
 import static java.lang.Math.*;
 
-import java.util.Scanner;
-
+/**
+ * MatrixCalculateClass - класс с реализацией основных функций программы для решения полной и частичной проблем собственных значений
+ */
 public class MatrixCalculateClass {
+    /**
+     * Переменная(массив) для хранения фактического числа итераций приведенных методов решения частичной проблемы собственных значений
+     */
     private int factK[] = {-1, -1};
 
+    /**
+     * Метод для отображения фактического числа итераций приведенных методов решения частичной проблемы собственных значений
+     */
     public void watchFactK() {
         System.out.println("Note: Если значение равно \"-1\", то это означает, что вычисление этого метода ещё не происходило. Произведите его через меню и вернитесь обратно к результатам");
         System.out.println("Фактическое число итераций, полученное степенным методом c точностью ε = 0.001 k = " + factK[0]);
         System.out.println("Фактическое число итераций, полученное методом скалярных произведений с точностью ε = 0.000001 k = " + factK[1]);
     }
 
+    /**
+     * Метод для нахождения всех собственных чисел и собственных векторов матрицы методом Якоби с заданной точностью ε
+     * @param matrixA матрица A из условия
+     * @param rows порядок матрицы A
+     * @param eps точностью результата
+     */
     public void yakobiMethod(MatrixClass matrixA, int rows, double eps) {
         MatrixClass matrixX = new MatrixClass();
         matrixX.setSize(rows, rows);
@@ -120,6 +133,12 @@ public class MatrixCalculateClass {
         }
     }
 
+    /**
+     * Метод для нахождения максимального по модулю собственного числа λ матрицы A степенным методом c точностью ε и соответствующего ему собственного вектора x
+     * @param matrixA матрица A из условия
+     * @param rows порядок матрицы A
+     * @param eps точностью результата
+     */
     public void stepMethod(MatrixClass matrixA, int rows, double eps) {
         MatrixCalculateClass calculator = new MatrixCalculateClass();
         MatrixClass vectorY = new MatrixClass();
@@ -129,6 +148,12 @@ public class MatrixCalculateClass {
         for (int i = 0; i < rows; ++i) {
             vectorY.setElem(i, 0, 1);
             vectorYBeforeIter.setElem(i, 0, 1);
+        }
+        double normaY;
+        normaY = calculator.normaVector(vectorY, rows);
+        for (int i = 0; i < rows; ++i) {
+            vectorY.setElem(i, 0, vectorY.getElem(i, 0) / normaY);
+            vectorYBeforeIter.setElem(i, 0, vectorY.getElem(i, 0));
         }
         int k = 0;
         double lyambda = 1, lymbdaBefore;
@@ -146,12 +171,20 @@ public class MatrixCalculateClass {
                     break;
                 } else {
                     ++k;
+                    normaY = calculator.normaVector(vectorY, rows);
+                    for (int i = 0; i < rows; ++i) {
+                        vectorY.setElem(i, 0, vectorY.getElem(i, 0) / normaY);
+                    }
                     for (int i = 0; i < rows; ++i) {
                         vectorYBeforeIter.setElem(i, 0, vectorY.getElem(i, 0));
                     }
                 }
             } else {
                 ++k;
+                normaY = calculator.normaVector(vectorY, rows);
+                for (int i = 0; i < rows; ++i) {
+                    vectorY.setElem(i, 0, vectorY.getElem(i, 0) / normaY);
+                }
                 for (int i = 0; i < rows; ++i) {
                     vectorYBeforeIter.setElem(i, 0, vectorY.getElem(i, 0));
                 }
@@ -181,6 +214,12 @@ public class MatrixCalculateClass {
         factK[0] = k;
     }
 
+    /**
+     * Метод для нахождения максимального по модулю собственного числа λ матрицы A методом скалярных произведений с точностью ε
+     * @param matrixA матрица A из условия
+     * @param rows порядок матрицы A
+     * @param eps точностью результата
+     */
     public void scalProiz(MatrixClass matrixA, int rows, double eps) {
         MatrixCalculateClass calculator = new MatrixCalculateClass();
         MatrixClass vectorY = new MatrixClass();
@@ -252,6 +291,13 @@ public class MatrixCalculateClass {
         factK[1] = k;
     }
 
+    /**
+     * Метод для нахождения скалярного произведения двух векторов
+     * @param matrixA вектор A
+     * @param matrixB вектор B
+     * @param rows высота векторов
+     * @return результат скалярного произведения двух векторов
+     */
     public double scal(MatrixClass matrixA, MatrixClass matrixB, int rows) {
         double sum = 0;
         for (int i = 0; i < rows; ++i) {
@@ -260,12 +306,17 @@ public class MatrixCalculateClass {
         return sum;
     }
 
-
+    /**
+     * Метод для нахождения нормы вектора(максимального по абсолютной величине его компонента)
+     * @param matrix вектор
+     * @param rows высота вектора
+     * @return норма вектора
+     */
     public static double normaVector(MatrixClass matrix, int rows) {
         double max = 0;
         for (int i = 0; i < rows; ++i) {
-            if (abs(matrix.getElem(i, 0)) > abs(max)) {
-                max = matrix.getElem(i, 0);
+            if (abs(matrix.getElem(i, 0)) > max) {
+                max = abs(matrix.getElem(i, 0));
             }
         }
         return max;
